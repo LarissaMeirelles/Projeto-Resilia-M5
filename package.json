@@ -1,0 +1,34 @@
+{
+  "name": "projeto-resilia-m5",
+  "version": "1.0.0",
+  "description": "Projeto em grupo do modulo 5",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LarissaMeirelles/Projeto-Resilia-M5.git"
+  },
+  "keywords": [
+    "API",
+    "Node.js",
+    "MySQL",
+    "Express"
+  ],
+  "author": "Thiago Bomfim, Larissa Meirelles, Ana Beatriz, Mariana Medeiros, Alan Nataniel, Nayane Cristina",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LarissaMeirelles/Projeto-Resilia-M5/issues"
+  },
+  "homepage": "https://github.com/LarissaMeirelles/Projeto-Resilia-M5#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql2": "^3.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
