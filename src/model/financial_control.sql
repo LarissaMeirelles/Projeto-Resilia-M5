@@ -12,6 +12,7 @@ CREATE TABLE user (
     u_password VARCHAR(127) NOT NULL,
     u_telephone VARCHAR(20),
     u_income DECIMAL NOT NULL,
+    u_permission ENUM('adm', 'mod', 'users') DEFAULT 'users',
     u_status ENUM('on', 'off', 'del') DEFAULT 'on'
 );
 
