@@ -47,7 +47,7 @@ const categoryControl = {
   post: async (req, res) => {
     try {
       const { nome, descricao } = req.body;
-      const sql = "INSERT INTO category (c_name, c_description) VALUES (?, ?, ?, ?, ?, ?)";
+      const sql = "INSERT INTO category (c_name, c_description) VALUES (?, ?)";
       const [rows] = await conn.query(sql, [nome, descricao]);
       res.json({ data: rows });
     } catch (error) {
