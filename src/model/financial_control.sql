@@ -28,7 +28,7 @@ CREATE TABLE spending (
     s_id INT PRIMARY KEY AUTO_INCREMENT,
     s_user INT NOT NULL,
     s_category INT NOT NULL,    
-    s_date DATE NOT NULL,
+    s_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     s_value DECIMAL NOT NULL,
     FOREIGN KEY (s_user) REFERENCES user (u_id),
     FOREIGN KEY (s_category) REFERENCES category (c_id)

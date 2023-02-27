@@ -8,7 +8,7 @@ const spendingControl = {
   // Lista todos os registros válidos.
   getAll: async (req, res) => {
     try {
-      const [rows] = await conn.query("SELECT * FROM spending ORDER BY s_date DESC");
+      const [rows] = await conn.query("SELECT *, DATE_FORMAT(s_date, '%d/%m/%Y às %H:%i') AS s_datebr FROM spending ORDER BY s_date DESC");
       res.json({ data: rows });
     } catch (error) {
       res.json({ status: "error", message: error });
@@ -19,8 +19,8 @@ const spendingControl = {
   getOne: async (req, res) => {
     try {
       const { id } = req.params;
-      const [rows] = await conn.query("SELECT * FROM spending WHERE s_id = ?", [id]);
-      res.json({ data: rows });
+      const [rows] = await conn.query("SELECT *, DATE_FORMAT(s_date, '%d/%m/%Y às %H:%i') AS s_datebr FROM spending WHERE s_id = ?", [id]);
+      res.json({ data: rows[0] });
     } catch (error) {
       res.json({ status: "error", message: error });
     }
@@ -32,7 +32,10 @@ const spendingControl = {
       const { id } = req.params
       const sql = "DELETE FROM spending WHERE s_id = ?"
       const [rows] = await conn.query(sql, [id]);
-      res.json({ data: rows });
+      res.json({
+        error: false,
+        message: 'Gasto deletado com sucesso!'
+        });
     } catch (error) {
       res.json({ status: "error", message: error });
     }
@@ -45,7 +48,10 @@ const spendingControl = {
       const { id_usuario, categoria, data, valor } = req.body;
       const sql = "INSERT INTO spending (s_user, s_category, s_date, s_value) VALUES (?, ?, ?, ?)";
       const [rows] = await conn.query(sql, [id_usuario, categoria, data, valor]);
-      res.json({ data: rows });
+      res.json({
+        error: false,
+        message: 'Gasto criado com sucesso!'
+        });
     } catch (error) {
       res.json({ status: "error", message: error });
     }
@@ -58,7 +64,10 @@ const spendingControl = {
       const { id } = req.params;
       const sql = "UPDATE spending SET s_category = ?, s_date = ?, s_value = ? WHERE s_id = ?"
       const [rows] = await conn.query(sql, [categoria, data, valor, id]);
-      res.json({ data: rows });
+      res.json({
+        error: false,
+        message: 'Gasto atualizado com sucesso!'
+        });
     } catch (error) {
       res.json({ status: "error", message: error });
     }

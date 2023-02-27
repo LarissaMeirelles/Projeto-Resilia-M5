@@ -12,8 +12,8 @@ const categoryControl = {
   // Lista todos os registros válidos.
   getAll: async (req, res) => {
     try {
-      const [rows] = await conn.query("SELECT * FROM category;");
-      res.json({ data: rows });
+      const [rows] = await conn.query("SELECT * FROM category");
+      res.json({ result: rows });
     } catch (error) {
       res.json({ status: "error", message: error });
     }
@@ -24,7 +24,7 @@ const categoryControl = {
     try {
       const { id } = req.params;
       const [rows] = await conn.query("SELECT * FROM category WHERE c_id = ?", [id]);
-      res.json({ data: rows });
+      res.json({ result: rows[0] });
     } catch (error) {
       res.json({ status: "error", message: error });
     }
@@ -36,7 +36,10 @@ const categoryControl = {
       const { id } = req.params
       const sql = "DELETE FROM category WHERE c_id = ?"
       const [rows] = await conn.query(sql, [id]);
-      res.json({ data: rows });
+      res.json({
+        error: false,
+        message: 'Categoria deletada com sucesso!'
+        });
     } catch (error) {
       res.json({ status: "error", message: error });
     }
@@ -49,7 +52,11 @@ const categoryControl = {
       const { nome, descricao } = req.body;
       const sql = "INSERT INTO category (c_name, c_description) VALUES (?, ?)";
       const [rows] = await conn.query(sql, [nome, descricao]);
-      res.json({ data: rows });
+      res.json({
+        error: false,
+        message: 'Categoria adicionada com sucesso!',
+        data: rows[0]
+        });
     } catch (error) {
       res.json({ status: "error", message: error });
     }
@@ -62,7 +69,11 @@ const categoryControl = {
       const { id } = req.params;
       const sql = "UPDATE category SET c_name = ?, c_description = ? WHERE c_id = ?"
       const [rows] = await conn.query(sql, [nome, descricao, id]);
-      res.json({ data: rows });
+      res.json({
+        error: false,
+        message: 'Categoria alterada com sucesso!',
+        data: rows[0]
+        });
     } catch (error) {
       res.json({ status: "error", message: error });
     }
