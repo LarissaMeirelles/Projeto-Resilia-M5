@@ -7,7 +7,6 @@ const routes = require('./controllers/routes');
 const app = express();
 
 
-
 /*
 
 Adicionar o site na origin, quando tiver com o site/front-end estiver pronto
