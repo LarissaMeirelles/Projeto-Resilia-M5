@@ -68,7 +68,6 @@ const userControl = {
 
             // Compara se o email da requisição é diferente do email da consulta
             if(email !== atributos[0].u_email){
-                console.log(atributos[0].u_email)
                 return res.status(400).json({
                     error: true,
                     message: "Erro: Usuário ou a senha incorreta!"

@@ -1,3 +1,5 @@
+drop database if exists financial_control;
+
 -- Cria o banco de dados usando UTF-8 e buscas case-insensitive.
 CREATE DATABASE financial_control CHARACTER SET utf8 COLLATE utf8_general_ci;
 
@@ -19,8 +21,10 @@ CREATE TABLE user (
 -- Cria a tabela 'category'.
 CREATE TABLE category (
     c_id INT PRIMARY KEY AUTO_INCREMENT,
+    c_user INT NOT NULL,
     c_name VARCHAR(100) NOT NULL,
-    c_description TEXT
+    c_description TEXT,
+    FOREIGN KEY (c_user) REFERENCES user (u_id)
 );
 
 -- Cria a tabela 'spending'.
@@ -65,14 +69,14 @@ VALUES
 ('Mariana Medeiros', 'mariana@medeiros.com', '$2a$08$2jLYiJyhuPBqkOPcOsKpMOhAip/8yljSegvGt.nZ1joGnbCYUK6YO', 5000,  '21965784512', 'on', 'adm'),
 ('Nayane Cristina', 'nayane@cristina.com', '$2a$08$dH.klu8LBgu4a5sXfh5.ieJGH5/2WfLLbX9Ep7n5Rrb3qW2vhM8ki', 5800, '21963129725', 'on', 'adm');
 
-INSERT INTO category (c_name, c_description)
+INSERT INTO category (c_name, c_user, c_description)
 VALUES
-('Saúde', 'Planos de saúde, consultas, Academia, Veterinário'),
-('Lazer','Bebidas, Shopping, Festas, Cinema'),
-('Farmácia','Medicamentos, produtos de uso hospitalar, Suplementos, Cosméticos'),
-('Alimentação','Comidas, Sucos, Mercado, Lanches'),
-('Higiene','Shampoo, Desodorante, Sabonete, Creme dental'),
-('Moradia','Aluguel, Construção, Decoração, Arquitetura');
+('Saúde', 1, 'Planos de saúde, consultas, Academia, Veterinário'),
+('Lazer', 3,'Bebidas, Shopping, Festas, Cinema'),
+('Farmácia', 2,'Medicamentos, produtos de uso hospitalar, Suplementos, Cosméticos'),
+('Alimentação', 4,'Comidas, Sucos, Mercado, Lanches'),
+('Higiene', 1,'Shampoo, Desodorante, Sabonete, Creme dental'),
+('Moradia', 3,'Aluguel, Construção, Decoração, Arquitetura');
 
 INSERT INTO spending (s_user, s_category, s_date, s_value) VALUES 
 (1, 1, '2023-02-27T19:20', 70),
@@ -92,10 +96,10 @@ INSERT INTO economy (e_user, e_spending, e_value_saved, e_description) VALUES
 
 INSERT INTO report (r_date, r_user, r_category, r_total_spending) VALUES
 ('2023-02-27T19:40', 1, 1, 70),
-('2023-02-27T19:40', 2, 3, 100),
-('2023-02-27T19:40', 3, 2, 50),
+('2023-02-27T19:40', 2, 2, 100),
+('2023-02-27T19:40', 3, 3, 50),
 ('2023-02-27T19:40', 4, 4, 20),
-('2023-02-27T19:40', 5, 2, 140),
-('2023-02-27T19:40', 6, 3, 90);
+('2023-02-27T19:40', 5, 5, 140),
+('2023-02-27T19:40', 6, 6, 90);
 
 

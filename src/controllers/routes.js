@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
 
 const userControl = require('./userControl');
 
-// rota para adm
+// Rota do Usuário
 router.get("/adm", userControl.getAll);
 
 router.post("/login/:id", validationLogin, userControl.Login);
@@ -25,26 +25,26 @@ router.post("/register", validation, userControl.Register);
 router.put("/edition/:id", validation, verifyToken, userControl.Edition);
 router.delete("/delete/:id", verifyToken, userControl.Delete);
 
-
+// Rota das Categorias
 const categoryControl = require('./categoryControl');
 
-router.get("/category", categoryControl.getAll);
-router.get("/category/:id", verifyToken, categoryControl.getOne);
-router.post("/category", verifyToken, bodyParser, categoryControl.post);
-router.put("/category/:id", verifyToken, bodyParser, categoryControl.put);
+router.get("/categories", categoryControl.getAll);
+router.get("/category/:id_cat", verifyToken, categoryControl.getOne);
+router.post("/category", verifyToken, categoryControl.post);
+router.put("/category/:id_cat", verifyToken, categoryControl.put);
 router.delete("/category/:id", verifyToken, categoryControl.delete);
 
-
+// Rota dos Gastos
 const spendingControl = require('./spendingControl');
 
-router.get("/spending", spendingControl.getAll);
+router.get("/spendings/:id", spendingControl.getAll);
 router.get("/spending/:id", verifyToken, spendingControl.getOne);
 router.post("/spending", verifyToken, bodyParser, spendingControl.post);
 router.put("/spending/:id", verifyToken, bodyParser, spendingControl.put);
 router.delete("/spending/:id", verifyToken, spendingControl.delete);
 
 
-
+// Rota das Economias
 const economyControl = require('./economyControl');
 // Lista a economia de um usuário
 router.get("/economy/:id", verifyToken, economyControl.getOne); 
@@ -52,10 +52,10 @@ router.get("/economy/:id", verifyToken, economyControl.getOne);
 router.post("/economy", verifyToken, bodyParser, economyControl.post); 
 
 
-
+// Rota de Relatórios
 const reportControl = require('./reportControl');
 
-router.get("/report/", reportControl.getAll);
+router.get("/reports/:id", reportControl.getAll);
 router.post("/report/:id", verifyToken, reportControl.getOne);
 router.post("/report", verifyToken, bodyParser, reportControl.post);
 router.put("/report/:id", verifyToken, bodyParser, reportControl.put);
