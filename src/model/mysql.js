@@ -11,4 +11,5 @@ const conn = mysql.createPool({
   database: conf.DATABASE,
 }).promise();
 
+// Exporta o módulo.
 module.exports = conn;
