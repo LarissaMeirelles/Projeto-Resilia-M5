@@ -1,5 +1,3 @@
-drop database if exists financial_control;
-
 -- Cria o banco de dados usando UTF-8 e buscas case-insensitive.
 CREATE DATABASE financial_control CHARACTER SET utf8 COLLATE utf8_general_ci;
 
@@ -89,9 +87,9 @@ INSERT INTO spending (s_user, s_category, s_date, s_value) VALUES
 INSERT INTO economy (e_user, e_spending, e_value_saved, e_description) VALUES 
 (1, 1, 130,'Paguei a academia'),
 (2, 2, 50,'Comprei alguns cosméticos, quase não me sobra dinheiro, tudo muito caro.'),
-(3, 3, 100,'Consegui sair pro rolê esse final de semana sem gastar muito.'),
-(4, 4, 50,'Comprei alguns biscoitos na Casa do biscoito'),
-(5, 5, 60,'Assisti um filme novo e comprei algumas roupas no shopping'),
+(3, 3, 100,'Consegui sair para o rolê nesse final de semana sem gastar muito.'),
+(4, 4, 50,'Comprei alguns biscoitos na Casa do Biscoito.'),
+(5, 5, 60,'Assisti um filme novo e comprei algumas roupas no shopping.'),
 (6, 6, 200,'Fiz compra no mercado, e comprei coisas que estavam faltando em casa.');
 
 INSERT INTO report (r_date, r_user, r_category, r_total_spending) VALUES
