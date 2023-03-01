@@ -9,10 +9,16 @@ const userControl = {
     getAll: async (req, res) => {
         
         try {
-            // Verifica se o usuário é um administrador
-            const sql = `SELECT * FROM ${conf.U} WHERE ${conf.UP} = '${conf.A}';`;
+            // token de autenticação do usuario
+            const token = req.headers.authorization.split(' ')[1];
+            const decoded = jwt.decode(token);
+            const userId = decoded.id;
+
+            // Verifica se o usuário é um administrador e se o id é o mesmo do token
+            const sql = `SELECT * FROM ${conf.U} WHERE ${conf.UP} = '${conf.A}' AND ${conf.CH} = ${userId};`;
             const [atributos] = await conn.query(sql);
 
+            // verifica se existe algum usuario. se não existir, retorne erro
             if (atributos.length === 0) {
                 return res.status(403).json({ error: true, message: 'Acesso negado' });
             } else {
@@ -20,9 +26,11 @@ const userControl = {
                 const sqlGetAll = `SELECT * FROM ${conf.U};`;
                 const [users] = await conn.query(sqlGetAll);
                 
+                // resposta da requisição caso tudo tenha seguido corretamente
                 res.json({ data: users });
             }
 
+        // retorna mensagem de erro caso não tenha seguido corretamente a requisição
         } catch (error) {
             res.json({ message: `Você não é um administrador para acessar essa rota!` });
         }
@@ -30,7 +38,9 @@ const userControl = {
 
     Register: async (req, res) => {
         try {
+            // variaveis da requisição
             const { nome, email, senha, renda, telefone } = req.body;
+
             // criptografa a senha do usuário
             const cript = await bcrypt.hash(senha, 8);
 
@@ -46,7 +56,6 @@ const userControl = {
             });
         }
         catch (error) {
-            console.error(error);
             res.status(400).json({
                 error: true,
                 message: error.message
@@ -91,7 +100,7 @@ const userControl = {
                 // expiresIn: '7d' // 7 dias
             })
 
-            // Resposta da requisição
+            // resposta da requisição
             return res.json({
                 erro: false,
                 message: "Login realizado com sucesso",
@@ -100,7 +109,6 @@ const userControl = {
         }
         // Exibe mensagem de erro
         catch (error) {
-            console.log(error)
             res.json({ status: "error", message: "Erro ao Logar" })
         }
     },
@@ -123,7 +131,7 @@ const userControl = {
             }
 
             // Resposta da requisição
-            res.json({
+            return res.json({
             error: false,
             message: 'Usuário atualizado com sucesso!'
             })
@@ -138,6 +146,7 @@ const userControl = {
 
     Delete: async (req, res) => {
         try {
+            // variavel da requisição
             const { id } = req.params;
 
             // Extrai os campos do req.body
@@ -152,7 +161,7 @@ const userControl = {
             res.json(resultado);
         } 
         catch (error) 
-        {
+        {   
             console.error(`Erro ao atualizar o usuario ${id}: ${error.message}`);
             res.status(500).json({ status: 'error', message: 'Erro ao deletar o usuario.' });
         }
