@@ -65,13 +65,14 @@ const userControl = {
 
     Login: async (req, res) => {
 
-        const id = req.params.id;
         try {
+            const { id } = req.params;
+            
             // req.body é usado para acessar dados enviados pelo cliente.
             const {email, senha} = req.body;
 
             // Query
-            const sql = `SELECT ${conf.EM}, ${conf.PA} FROM ${conf.U} WHERE ${conf.CH} = ? AND ${conf.US} = '${conf.O}';`;
+            const sql = `SELECT ${conf.EM}, ${conf.PA} FROM ${conf.U} WHERE ${conf.CH} = ${id};`;
             const [atributos] = await conn.query(sql, [id])
 
 
