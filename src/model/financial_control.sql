@@ -8,7 +8,7 @@ USE financial_control;
 CREATE TABLE user (
     u_id INT PRIMARY KEY AUTO_INCREMENT,
     u_name VARCHAR(255) NOT NULL, 
-    u_email VARCHAR(100) NOT NULL,
+    u_email VARCHAR(100) UNIQUE NOT NULL,
     u_password VARCHAR(127) NOT NULL,
     u_telephone VARCHAR(20),
     u_income DECIMAL NOT NULL,
