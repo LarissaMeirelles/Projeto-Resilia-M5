@@ -1,28 +1,29 @@
 const express = require('express');
-const helmet = require('helmet');
-const cors = require('cors');
+// const helmet = require('helmet');
+// const cors = require('cors');
 const bodyParser = require('body-parser');
-const routes = require('./controllers/routes');
-
+const routes = require('./control/routes');
+const path = require('path')
 const app = express();
-
-
 
 /*
 
 Adicionar o site na origin, quando tiver com o site/front-end estiver pronto
 Adicionar o helmet só quando o site estiver pronto
 
-// Use o middleware Helmet para adicionar headers de segurança para o seu aplicativo
+// Helmet para adicionar headers de segurança para o seu aplicativo
 app.use(helmet());
 
-// Use o middleware CORS para limitar o acesso apenas aos sites permitidos
+// CORS para limitar o acesso apenas aos sites permitidos
 const corsOptions = {
   origin: 'https://www.seusite.com'
 };
 app.use(cors(corsOptions));
 
 */
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 // middleware body-parser para processar as requisições com dados JSON ou URL-encoded
 app.use(bodyParser.json());
