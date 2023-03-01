@@ -5,7 +5,23 @@
     <title>Document</title>
 </head>
 <body>
-<pre><h1>Rotas disponíveis para consulta:</h1>
+<pre>
+<h1>Rotas disponíveis para consulta:</h1>
+
+<h2>Para utilizar o sistema de login, siga estes passos:</h2><ul style="font-weight: bold;"></ul>
+<li style="font-size: 14px;">1- Cadastre um novo usuário usando a rota "/register" com o método "POST". Serão necessários os seguintes dados: nome, email, senha, renda e telefone.</li>
+
+<li style="font-size: 14px;">2- Após cadastrar o usuário, acesse a rota "/login" com o método "POST" com o seu id gerado como parâmetro e informe o email e senha que você cadastrou. Isso irá gerar um token de acesso.</li>
+<li style="font-size: 14px;">3- Acesse a rota "/edition" com o método "PUT" e com o seu id como paramêtro e inclua o token de acesso no campo de autorização (bearer token). Se você inserir um token inválido,
+   o sistema irá alertá-lo. Se você não inserir nenhum token, o sistema também irá alertá-lo e você não poderá prosseguir. Se você inserir um token válido, 
+   os dados de todos os usuários serão exibidos.
+   <li style="font-size: 14px;">4- Acesse a rota "/delete", insira seu identificador como parâmetro e insira seu token de acesso no campo de autorização (bearer token) para deletar o seu usuario.</li>
+    
+      <strong>Para ter acesso a rota principal "/adm", você precisa ser um usuario com o status 'adm'.</strong>
+   
+      <strong>OBS:</strong> Lembre-se de seguir esses passos para utilizar corretamente o sistema de login.</li>
+</ul>
+<hr>
  <div style="font-size: 14px;">
  - /adm (GET) - Lista todos os usuários cadastrados;
  - /login/:id (POST) - Realiza o login de um usuário;
