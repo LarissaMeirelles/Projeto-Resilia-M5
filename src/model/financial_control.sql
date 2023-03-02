@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS financial_control;
+
 -- Cria o banco de dados usando UTF-8 e buscas case-insensitive.
 CREATE DATABASE financial_control CHARACTER SET utf8 COLLATE utf8_general_ci;
 
@@ -12,6 +14,9 @@ CREATE TABLE user (
     u_password VARCHAR(127) NOT NULL,
     u_telephone VARCHAR(20),
     u_income DECIMAL NOT NULL,
+    u_gender ENUM('fem', 'masc', 'prefiro não informar') DEFAULT 'prefiro não informar',
+    u_address VARCHAR(255) NOT NULL,
+    u_avatar VARCHAR(255) NOT NULL DEFAULT "user.png",
     u_status ENUM('on', 'off', 'del') DEFAULT 'on',
     u_permission ENUM('adm', 'mod', 'users') DEFAULT 'users'
 );
@@ -58,14 +63,14 @@ CREATE TABLE report (
     FOREIGN KEY (r_category) REFERENCES category (c_id)
 );
 
-INSERT INTO user (u_name, u_email, u_password, u_income, u_telephone, u_status , u_permission)
+INSERT INTO user (u_name, u_email, u_password, u_income, u_gender, u_address, u_telephone, u_status , u_permission)
 VALUES
-('Thiago Bomfim', 'thiago@bomfim.com', '$2a$08$OCZJOnfnfZ99RIrY1svAJ.kLKzpOVLtM6UdDaHisJUL44Sv960Gc2', 5000, '21984635412',  'on', 'adm'),
-('Ana Beatriz', 'ana@beatriz.com', '$2a$08$cj6dlEWyMS3nubTyG39uJuYhOOqe7xzMk1VMvf7ZK012Ir3/xPDoS', 4000, '21976312348',  'on', 'adm'),
-('Larissa Meirelles', 'larissa@meirelles.com', '$2a$08$60qJMn7hBMJzCvkdGY1YA.5Z6mWlsihaMwtLz8heXcdksfuMVU2Cm', 6000, '21994628632', 'on', 'adm'),
-('Alan Nataniel', 'alan@nataniel.com', '$2a$08$D..eaX5HJIBZ/qgySWFypef0yuIwrEZwLeQXmYnCFNkghLAil4IaS', 5500, '21989453214', 'on', 'adm'),
-('Mariana Medeiros', 'mariana@medeiros.com', '$2a$08$2jLYiJyhuPBqkOPcOsKpMOhAip/8yljSegvGt.nZ1joGnbCYUK6YO', 5000,  '21965784512', 'on', 'adm'),
-('Nayane Cristina', 'nayane@cristina.com', '$2a$08$dH.klu8LBgu4a5sXfh5.ieJGH5/2WfLLbX9Ep7n5Rrb3qW2vhM8ki', 5800, '21963129725', 'on', 'adm');
+('Thiago Bomfim', 'thiago@bomfim.com', '$2a$08$OCZJOnfnfZ99RIrY1svAJ.kLKzpOVLtM6UdDaHisJUL44Sv960Gc2', 5000, 'masc', 'rua conceicao de alguma coisa', '21984635412',  'on', 'adm'),
+('Ana Beatriz', 'ana@beatriz.com', '$2a$08$cj6dlEWyMS3nubTyG39uJuYhOOqe7xzMk1VMvf7ZK012Ir3/xPDoS', 4000, 'fem', 'rua conceicao de alguma coisa', '21976312348',  'on', 'adm'),
+('Larissa Meirelles', 'larissa@meirelles.com', '$2a$08$60qJMn7hBMJzCvkdGY1YA.5Z6mWlsihaMwtLz8heXcdksfuMVU2Cm', 6000, 'fem', 'rua conceicao de alguma coisa', '21994628632', 'on', 'adm'),
+('Alan Nataniel', 'alan@nataniel.com', '$2a$08$D..eaX5HJIBZ/qgySWFypef0yuIwrEZwLeQXmYnCFNkghLAil4IaS', 5500, 'masc', 'rua conceicao de alguma coisa', '21989453214', 'on', 'adm'),
+('Mariana Medeiros', 'mariana@medeiros.com', '$2a$08$2jLYiJyhuPBqkOPcOsKpMOhAip/8yljSegvGt.nZ1joGnbCYUK6YO', 5000, 'fem', 'rua conceicao de alguma coisa', '21965784512', 'on', 'adm'),
+('Nayane Cristina', 'nayane@cristina.com', '$2a$08$dH.klu8LBgu4a5sXfh5.ieJGH5/2WfLLbX9Ep7n5Rrb3qW2vhM8ki', 5800, 'fem', 'rua conceicao de alguma coisa', '21963129725', 'on', 'adm');
 
 INSERT INTO category (c_name, c_user, c_description)
 VALUES

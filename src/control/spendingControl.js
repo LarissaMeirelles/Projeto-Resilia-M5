@@ -138,11 +138,16 @@ const spendingControl = {
           });
           return;
         }
+
+        // desativa as restrições temporariamente para conseguir deletar o registro apenas desta tabela
+        await conn.query('SET FOREIGN_KEY_CHECKS=0');
         
         // atualiza os dados da categoria quando o o id da categoria for igual ao da requisição e o id do usuario for igual ao id do token
         const sql = `UPDATE ${conf.S} SET ${conf.SU} = ${userId}, ${conf.SC} = ?, ${conf.SD} = ?, ${conf.SV} = ? WHERE ${conf.SI} = ${id} AND ${conf.SU} = ${userId}`;
         const [atributos] = await conn.query(sql, [categoria, data, valor, id]);
 
+        // reativa as restrições
+        await conn.query('SET FOREIGN_KEY_CHECKS=1');
 
         res.json({
           error: false,

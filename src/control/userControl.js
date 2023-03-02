@@ -14,7 +14,7 @@ const userControl = {
             const decoded = jwt.decode(token);
             const userId = decoded.id;
 
-            // Verifica se o usuário é um administrador e se o id é o mesmo do token
+            // Verifica se o usuário é um administrador e se o email é o mesmo do token
             const sql = `SELECT * FROM ${conf.U} WHERE ${conf.UP} = '${conf.A}' AND ${conf.CH} = ${userId};`;
             const [atributos] = await conn.query(sql);
 
@@ -39,16 +39,16 @@ const userControl = {
     Register: async (req, res) => {
         try {
             // variaveis da requisição
-            const { nome, email, senha, renda, telefone } = req.body;
+            const { nome, email, senha, renda, telefone, genero, endereco } = req.body;
 
             // criptografa a senha do usuário
             const cript = await bcrypt.hash(senha, 8);
 
             // Query
-            const sql = `INSERT INTO ${conf.U} (${conf.NA}, ${conf.EM}, ${conf.PA}, ${conf.IN}, ${conf.TE}) VALUES (?, ?, ?, ?, ?);`;
-            const [atributos] = await conn.query(sql, [nome, email, cript, renda, telefone]);
+            const sql = `INSERT INTO ${conf.U} (${conf.NA}, ${conf.EM}, ${conf.PA}, ${conf.IN}, ${conf.TE}, ${conf.GD}, ${conf.END}, ${conf.AV}) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
+            const [atributos] = await conn.query(sql, [nome, email, cript, renda, telefone, genero, endereco]);
 
-        
+
             // Resposta da requisição
             res.json({
                 error: false,
@@ -66,14 +66,13 @@ const userControl = {
     Login: async (req, res) => {
 
         try {
-            const { id } = req.params;
             
             // req.body é usado para acessar dados enviados pelo cliente.
             const {email, senha} = req.body;
 
             // Query
-            const sql = `SELECT ${conf.EM}, ${conf.PA} FROM ${conf.U} WHERE ${conf.CH} = ${id};`;
-            const [atributos] = await conn.query(sql, [id])
+            const sql = `SELECT ${conf.CH}, ${conf.EM}, ${conf.PA} FROM ${conf.U} WHERE ${conf.EM} = '${email}';`;
+            const [atributos] = await conn.query(sql, [email, senha])
 
 
             // Compara se o email da requisição é diferente do email da consulta
@@ -93,8 +92,13 @@ const userControl = {
                 });
             }
 
+            const payload = {
+                email: email,
+                id: atributos[0].u_id
+            }
+
             // Cria um token do usuario ao fazer o login
-            const token = jwt.sign({ id: id }, conf.JWT_PASSWORD, {
+            const token = jwt.sign(payload, conf.JWT_PASSWORD, {
                 expiresIn: 3600 // 1h
                 // expiresIn: 600 // 10min
                 // expiresIn: 60 // 1min
@@ -116,15 +120,14 @@ const userControl = {
 
     Edition: async (req, res) => {
         try {
-            const { id } = req.params;
-            const { nome, email, senha, renda, telefone } = req.body;
+            const { nome, email, senha, renda, telefone, genero, endereco, avatar } = req.body;
 
             // criptografa a senha do usuário
             const cript = await bcrypt.hash(senha, 8);
 
             // Query para atualizar os dados do usuário
-            const sql = `UPDATE ${conf.U} SET ${conf.NA} = ?, ${conf.EM} = ?, ${conf.PA} = ?, ${conf.IN} = ?, ${conf.TE} = ? WHERE ${conf.CH} = ?`;
-            const [atributos] = await conn.query(sql, [nome, email, cript, renda, telefone, id]);
+            const sql = `UPDATE ${conf.U} SET ${conf.NA} = '${nome}', ${conf.EM} = '${email}', ${conf.PA} = '${cript}', ${conf.IN} = ${renda}, ${conf.TE} = '${telefone}', ${conf.GD} = '${genero}', ${conf.END} = '${endereco}', ${conf.AV} = '${avatar}' WHERE ${conf.EM} = '${email}'`;
+            const [atributos] = await conn.query(sql, [nome, email, cript, renda, telefone, genero, endereco, avatar]);
 
             // Verifica se a atualização foi bem sucedida
             if (atributos.affectedRows === 0) {
@@ -140,22 +143,24 @@ const userControl = {
         catch (error) {
             res.status(400).json({
             error: true,
-            message: 'Erro ao tentar atualizar as informações'
+            message: error
             });
         }
     },
 
     Delete: async (req, res) => {
         try {
-            // variavel da requisição
-            const { id } = req.params;
+            // token de autenticação do usuario
+            const token = req.headers.authorization.split(' ')[1];
+            const decoded = jwt.decode(token);
+            const userEmail = decoded.email;
 
             // Extrai os campos do req.body
             const { ST } = req.body;
             
             // Atualiza o status do usuario com o ID fornecido.
-            const sql = `UPDATE ${conf.U} SET ${conf.US} = ? WHERE ${conf.CH} = ?;`;
-            const [atributos] = await conn.query(sql, [ST || conf.DE, id])
+            const sql = `UPDATE ${conf.U} SET ${conf.US} = ? WHERE ${conf.EM} = '${userEmail}';`;
+            const [atributos] = await conn.query(sql, [ST || conf.DE ])
         
             // Retorna a resposta com os dados atualizados.
             const resultado = { usuario: atributos.insertId, status: 'Usuário deletado com sucesso!' }
@@ -163,7 +168,7 @@ const userControl = {
         } 
         catch (error) 
         {   
-            console.error(`Erro ao atualizar o usuario ${id}: ${error.message}`);
+            console.error(`Erro ao atualizar o usuario: ${error.message}`);
             res.status(500).json({ status: 'error', message: 'Erro ao deletar o usuario.' });
         }
     }

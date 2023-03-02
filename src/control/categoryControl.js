@@ -116,9 +116,16 @@ const categoryControl = {
           return;
         }
         
+
+        // desativa as restrições temporariamente para conseguir deletar o registro apenas desta tabela
+        await conn.query('SET FOREIGN_KEY_CHECKS=0');
+
         // atualiza os dados da categoria quando o o id da categoria for igual ao da requisição e o id do usuario for igual ao id do token
         const sql = `UPDATE ${conf.C} SET ${conf.CN} = ?, ${conf.CD} = ? WHERE ${conf.CI} = ${id} AND ${conf.CU} = ${userId}`;
         const [atributos] = await conn.query(sql, [nome, descricao]);
+
+        // reativa as restrições
+        await conn.query('SET FOREIGN_KEY_CHECKS=1');
     
         // resposta da requisição
         res.json({

@@ -18,10 +18,10 @@ const userControl = require('./userControl');
 // Rota do Usuário
 router.get("/adm", userControl.getAll);
 
-router.post("/login/:id", validationLogin, userControl.Login);
+router.post("/login", validationLogin, userControl.Login);
 router.post("/register", validation, userControl.Register);
-router.put("/edition/:id", validation, verifyToken, userControl.Edition);
-router.delete("/delete/:id", verifyToken, userControl.Delete);
+router.put("/edition", validation, verifyToken, userControl.Edition);
+router.delete("/delete", verifyToken, userControl.Delete);
 
 // Rota das Categorias
 const categoryControl = require('./categoryControl');
