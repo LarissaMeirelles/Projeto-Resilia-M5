@@ -16,7 +16,20 @@ const economyControl = {
         // variavel da requisição
         const { id } = req.params;
 
-        const sql = `SELECT ${conf.ES}, ${conf.EC}, ${conf.ED} FROM ${conf.E} WHERE ${conf.EI} = ${id} AND ${conf.E}.${conf.EU} = ${userId};`
+        const sql = `
+        SELECT 
+          s.${conf.SV} AS gasto,
+          c.${conf.CN} AS categoria,
+          ABS(s.${conf.SV} - e.${conf.EC}) AS economizado
+        FROM 
+        ${conf.E} e
+        INNER JOIN ${conf.S} s 
+          ON e.${conf.ES} = s.${conf.SI}
+        INNER JOIN ${conf.C} c 
+          ON e.${conf.E_C} = c.${conf.CI}
+        WHERE 
+          e.${conf.EU} = ${userId} AND c.${conf.CI} = ${id};`
+          
         const [atributos] = await conn.query(sql);
 
         // se não existir nenhuma economia, retorne erro
@@ -44,7 +57,7 @@ const economyControl = {
    post: async (req, res) => {
     try {
         // variaveis da requisição
-        const { id_gasto, economia, descricao} = req.body;
+        const { id_gasto, id_categoria, economia, descricao} = req.body;
 
         // token de autenticação do usuario
         const token = req.headers.authorization.split(' ')[1];
@@ -52,8 +65,8 @@ const economyControl = {
         const userId = decoded.id;
 
         // insire categorias 
-        const sql = `INSERT INTO ${conf.E} (${conf.EU}, ${conf.ES}, ${conf.EC}, ${conf.ED}) VALUES (${userId}, ?, ?, ?)`;
-        const [atributos] = await conn.query(sql, [id_gasto, economia, descricao]);
+        const sql = `INSERT INTO ${conf.E} (${conf.EU}, ${conf.ES}, ${conf.E_C}, ${conf.EC}, ${conf.ED}) VALUES (${userId}, ?, ?, ?, ?)`;
+        const [atributos] = await conn.query(sql, [id_gasto, id_categoria, economia, descricao]);
 
         // resposta da requisição
         res.json({

@@ -54,7 +54,7 @@ router.post("/economy", verifyToken, economyControl.post);
 const reportControl = require('./reportControl');
 
 router.get("/reports", verifyToken, reportControl.getAll);
-router.get("/report/:id", verifyToken, reportControl.getOne);
+router.get("/report/:id_cat", verifyToken, reportControl.getOne);
 router.post("/report", verifyToken, reportControl.post);
 router.put("/report/:id", verifyToken, reportControl.put);
 router.delete("/report/:id", verifyToken, reportControl.delete);

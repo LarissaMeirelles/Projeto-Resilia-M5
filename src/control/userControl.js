@@ -104,17 +104,19 @@ const userControl = {
                 // expiresIn: 60 // 1min
                 // expiresIn: '7d' // 7 dias
             })
-
+            
             // resposta da requisição
-            return res.json({
+            res.json({
                 erro: false,
                 message: "Login realizado com sucesso",
                 token
             })
+           
+            
         }
         // Exibe mensagem de erro
         catch (error) {
-            res.json({ status: "error", message: "Erro ao Logar" })
+            res.json({ status: "error", message: error })
         }
     },
 
@@ -171,7 +173,8 @@ const userControl = {
             console.error(`Erro ao atualizar o usuario: ${error.message}`);
             res.status(500).json({ status: 'error', message: 'Erro ao deletar o usuario.' });
         }
-    }
+    },
+
 }
 
 

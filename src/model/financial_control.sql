@@ -1,5 +1,3 @@
-DROP DATABASE IF EXISTS financial_control;
-
 -- Cria o banco de dados usando UTF-8 e buscas case-insensitive.
 CREATE DATABASE financial_control CHARACTER SET utf8 COLLATE utf8_general_ci;
 
@@ -44,12 +42,15 @@ CREATE TABLE spending (
 -- Cria a tabela 'economy'.
 CREATE TABLE economy (
     e_id INT PRIMARY KEY AUTO_INCREMENT,
+    e_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     e_user INT NOT NULL,
     e_spending INT NOT NULL,
+    e_category INT NOT NULL,
     e_value_saved DECIMAL NOT NULL,
     e_description TEXT,
     FOREIGN KEY (e_user) REFERENCES user (u_id),
-    FOREIGN KEY (e_spending) REFERENCES spending (s_id)
+    FOREIGN KEY (e_spending) REFERENCES spending (s_id),
+    FOREIGN KEY (e_category) REFERENCES category (c_id)
 );
 
 -- Cria a tabela 'report'.
@@ -89,13 +90,13 @@ INSERT INTO spending (s_user, s_category, s_date, s_value) VALUES
 (5, 2, '2023-02-10T16:40', 140),
 (6, 3, '2023-02-15T14:00', 90);
 
-INSERT INTO economy (e_user, e_spending, e_value_saved, e_description) VALUES 
-(1, 1, 130,'Paguei a academia'),
-(2, 2, 50,'Comprei alguns cosméticos, quase não me sobra dinheiro, tudo muito caro.'),
-(3, 3, 100,'Consegui sair para o rolê nesse final de semana sem gastar muito.'),
-(4, 4, 50,'Comprei alguns biscoitos na Casa do Biscoito.'),
-(5, 5, 60,'Assisti um filme novo e comprei algumas roupas no shopping.'),
-(6, 6, 200,'Fiz compra no mercado, e comprei coisas que estavam faltando em casa.');
+INSERT INTO economy (e_date, e_user, e_spending, e_category, e_value_saved, e_description) VALUES 
+('2023-02-27T19:20', 1, 1, 1, 130,'Paguei a academia'),
+('2023-02-27T19:20', 2, 2, 1, 50,'Comprei alguns cosméticos, quase não me sobra dinheiro, tudo muito caro.'),
+('2023-02-27T19:20', 3, 3, 2, 100,'Consegui sair para o rolê nesse final de semana sem gastar muito.'),
+('2023-02-27T19:20', 4, 4, 4, 50,'Comprei alguns biscoitos na Casa do Biscoito.'),
+('2023-02-27T19:20', 5, 5, 5, 60,'Assisti um filme novo e comprei algumas roupas no shopping.'),
+('2023-02-27T19:20', 6, 6, 6, 200,'Fiz compra no mercado, e comprei coisas que estavam faltando em casa.');
 
 INSERT INTO report (r_date, r_user, r_category, r_total_spending) VALUES
 ('2023-02-27T19:40', 1, 1, 70),

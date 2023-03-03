@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 // Objeto "controller" para a entidade "spending" do banco de dados.
 const spendingControl = {
 
+
+
   // Lista todos os registros válidos.
   getAll: async (req, res) => {
     try {
@@ -14,7 +16,7 @@ const spendingControl = {
         const userId = decoded.id;
 
         // busca todos as categorias do mesmo usuário
-        const [atributos] = await conn.query(`SELECT * FROM ${conf.S} WHERE ${conf.SU} = ${userId};`);
+        const [atributos] = await conn.query(`SELECT s.${conf.SI}, c.${conf.CN}, s.${conf.SD}, s.${conf.SV} FROM ${conf.S} s JOIN ${conf.C} c ON s.${conf.SC} = c.${conf.CI} WHERE s.${conf.SU} = ${userId};`);
 
         res.json({ result: atributos });
 
@@ -33,8 +35,8 @@ const spendingControl = {
 
         // variavel da requisição
         const { id } = req.params;
-
-        const [atributos] = await conn.query(`SELECT * FROM ${conf.S} WHERE ${conf.SI} = ${id} AND ${conf.SU} = ${userId};`);
+        const sql = `SELECT s.${conf.SI}, c.${conf.CN}, s.${conf.SD}, s.${conf.SV} FROM ${conf.S} s JOIN ${conf.C} c ON s.${conf.SC} = c.${conf.CI} WHERE s.${conf.SU} = ${userId} AND s.${conf.SI} = ${id};`
+        const [atributos] = await conn.query(sql, [id]);
         
         // se não existir nenhum gasto, retorne erro
         if(atributos.length === 0){

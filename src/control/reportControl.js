@@ -13,42 +13,9 @@ const reportControl = {
           const token = req.headers.authorization.split(' ')[1];
           const decoded = jwt.decode(token);
           const userId = decoded.id;
-          
-          
-          /*
-          SELECT
-              R.r_date,
-              C.c_name,
-              S.s_value,
-              total.value AS total_value
-          FROM
-              report AS R
-          INNER JOIN
-              category AS C ON R.r_category = C.c_id
-          INNER JOIN 
-              spending AS S ON S.s_category = C.c_id
-          INNER JOIN
-              (
-                  SELECT
-                      S.s_user,
-                      SUM(S.s_value) AS value
-                  FROM
-                      spending AS S
-                  WHERE
-                      S.s_user = 1
-              ) AS total ON total.s_user = S.s_user
-          WHERE
-              S.s_user = 1;
-
-          */
-
-
-          // ATUALIZAR
-          const buscaSql = `SELECT ${conf.C}.${conf.CN}, ${conf.C}.${conf.CD}, ${conf.R}.${conf.RC} FROM ${conf.C} INNER JOIN ${conf.R} ON ${conf.R}.${conf.RC} = ${conf.C}.${conf.CI} WHERE ${conf.C}${conf.CH} = ${userId} AND `
-          const catSql = await conn.query(buscaSql)
-
+        
           // busca todos as categorias do mesmo usuário
-          const sql = `SELECT ${conf.RD}, ${id}, ${conf.RT} FROM ${conf.R} WHERE ${conf.RU} = ${userId} ORDER BY ${conf.RD} DESC;`
+          const sql = `SELECT R.${conf.RD}, C.${conf.CN}, S.${conf.SV}, total.value AS total_value FROM ${conf.R} AS R INNER JOIN ${conf.C} AS C ON R.${conf.RC} = C.${conf.CI} INNER JOIN ${conf.S} AS S ON S.${conf.SC} = C.${conf.CI} INNER JOIN (SELECT S.${conf.SC}, SUM(S.${conf.SV}) AS value FROM ${conf.S} AS S WHERE S.${conf.SU} = ${userId} GROUP BY S.${conf.SC}) AS total ON total.${conf.SC} = S.${conf.SC} WHERE S.${conf.SU} = ${userId} AND C.${conf.CU} = ${userId};`
           const [atributos] = await conn.query(sql);
 
           res.json({ result: atributos });
@@ -66,13 +33,10 @@ const reportControl = {
           const userId = decoded.id;
 
           // variavel da requisição
-          const { id } = req.params;
+          const { id_cat } = req.params;
 
 
-          const buscaSql = `SELECT ${conf.CN}, ${conf.CD} FROM ${conf.C};`
-          const catSql = await conn.query(buscaSql)
-
-          const [atributos] = await conn.query(`SELECT ${conf.RD}, ${category}, ${conf.RT} FROM ${conf.R} WHERE ${conf.RI} = ${id} AND ${conf.RU} = ${userId};`);
+          const [atributos] = await conn.query(`SELECT R.${conf.RD}, C.${conf.CN}, S.${conf.SV}, total.value AS total_value FROM ${conf.R} AS R INNER JOIN ${conf.C} AS C ON R.${conf.RC} = C.${conf.CI} INNER JOIN ${conf.S} AS S ON S.${conf.SC} = C.${conf.CI} INNER JOIN (SELECT S.${conf.SC}, SUM(S.${conf.SV}) AS value FROM ${conf.S} AS S WHERE S.${conf.SU} = ${userId} GROUP BY S.${conf.SC}) AS total ON total.${conf.SC} = S.${conf.SC} WHERE S.${conf.SU} = ${userId} AND C.${conf.CI} = ${id_cat};`);
 
           // se não existir nenhuma relatorio, retorne erro
           if(atributos.length === 0){
@@ -128,27 +92,39 @@ const reportControl = {
     // Insere um novo registro.
     post: async (req, res) => {
       try {
-          // variaveis da requisição
-          const { data, id_categoria, total_gastos } = req.body;
-
-          // token de autenticação do usuario
-          const token = req.headers.authorization.split(' ')[1];
-          const decoded = jwt.decode(token);
-          const userId = decoded.id;
+        // Variáveis da requisição
+        const { id_categoria, total_gastos } = req.body;
     
-          // insire relatorios 
-          const sql = `INSERT INTO ${conf.R} (${conf.RD}, ${conf.RU}, ${conf.RC}, ${conf.RT}) VALUES (?, ${userId}, ?, ?)`;
-          const [atributos] = await conn.query(sql, [data, id_categoria, total_gastos, userId]);
+        // Token de autenticação do usuário
+        const token = req.headers.authorization.split(' ')[1];
+        const decoded = jwt.decode(token);
+        const userId = decoded.id;
     
-          // resposta da requisição
-          res.json({
-            error: false,
-            message: 'Relatorio criado com sucesso!'
+        // Verifica se a categoria informada existe para o usuário
+        const catSql = `SELECT * FROM ${conf.C} WHERE ${conf.CI} = ${id_categoria} AND ${conf.CU} = ${userId}`
+        const [categoria] = await conn.query(catSql);
+        if (!categoria) {
+          return res.status(400).json({
+            error: true,
+            message: 'Categoria não encontrada para o usuário.'
           });
+        }
+    
+        // Insere o relatório para a categoria informada
+        const sql = `INSERT INTO ${conf.R} (${conf.RU}, ${conf.RC}, ${conf.RT}) VALUES (${userId}, ${id_categoria}, ${total_gastos});`
+        const [atributos] = await conn.query(sql);
+    
+        // Resposta da requisição
+        res.json({
+          error: false,
+          message: 'Relatório criado com sucesso!'
+        });
       } catch (error) {
-        res.json({ status: "error", message: "Não foi po" });
+        console.error(error);
+        res.status(500).json({ error: true, message: 'Erro ao criar relatório.' });
       }
     },
+    
   
     // Edita o registro pelo Id.
     put: async (req, res) => {
@@ -200,3 +176,4 @@ const reportControl = {
   
   // Exporta o módulo.
   module.exports = reportControl;
+
