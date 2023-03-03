@@ -5,8 +5,8 @@ const app = express()
 
 // função que verifica se o token é valido, se foi inserido e se é compativel com o id do usuario
 function verifyToken(req, res, next) {
-  const token = req.cookies.token;
-  console.log(token)
+  const token = req.headers.authorization.split(' ')[1];
+  
   // Checa se o campo de token está vazio
   if (!token) {
     return res.status(401).json({ error: true, message: 'Token não fornecido' });

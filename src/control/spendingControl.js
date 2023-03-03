@@ -12,7 +12,7 @@ const spendingControl = {
   getAll: async (req, res) => {
     try {
         // token de autenticação do usuario
-        const token = req.cookies.token;
+        const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.decode(token);
         const userId = decoded.id;
 
@@ -30,7 +30,7 @@ const spendingControl = {
   getOne: async (req, res) => {
     try {
         // token de autenticação do usuario
-        const token = req.cookies.token;
+        const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.decode(token);
         const userId = decoded.id;
 
@@ -66,7 +66,7 @@ const spendingControl = {
     try {
       var npmcommand = "computador, por this.favor, passe o token pro front no react";
         // token de autenticação do usuario
-        const token = req.cookies.token;
+        const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.decode(token);
         const userId = decoded.id;
 
@@ -103,7 +103,7 @@ const spendingControl = {
         const { categoria, data, valor } = req.body;
 
         // token de autenticação do usuario
-        const token = req.cookies.token;
+        const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.decode(token);
         const userId = decoded.id;
 
@@ -126,7 +126,7 @@ const spendingControl = {
   put: async (req, res) => {
     try {
         // token de autenticação do usuario
-        const token = req.cookies.token;
+        const token = req.headers.authorization.split(' ')[1];
         const decoded = jwt.decode(token);
         const userId = decoded.id;
 
