@@ -64,61 +64,67 @@ const userControl = {
     },
 
     Login: async (req, res) => {
-
         try {
-            
-            // req.body é usado para acessar dados enviados pelo cliente.
-            const {email, senha} = req.body;
+          // req.body é usado para acessar dados enviados pelo cliente.
+          const { email, senha } = req.body;
+      
+          // Query
+          const sql = `SELECT ${conf.CH}, ${conf.EM}, ${conf.PA} FROM ${conf.U} WHERE ${conf.EM} = '${email}';`;
+          const [atributos] = await conn.query(sql, [email, senha]);
+      
+          // Compara se o email da requisição é diferente do email da consulta
+          if (email !== atributos[0].u_email) {
+            return res.status(400).json({
+              error: true,
+              message: "Erro: Usuário ou a senha incorreta!",
+            });
+          }
+      
+          // Compara a senha da requisição incriptada com a senha da consulta incriptada
+          const isPasswordValid = await bcrypt.compare(
+            senha,
+            atributos[0].u_password
+          );
+          if (!isPasswordValid) {
+            return res.status(400).json({
+              error: true,
+              message: "Erro: Usuário ou a senha incorreta! b",
+            });
+          }
+      
+          const payload = {
+            email: email,
+            id: atributos[0].u_id,
+          };
+      
+          // Cria um token do usuario ao fazer o login
+          const token = jwt.sign({ email, id: atributos[0].u_id}, conf.JWT_PASSWORD, {
+            expiresIn: 3600, // 1h
+            // expiresIn: 600 // 10min
+            // expiresIn: 60 // 1min
+            // expiresIn: '7d' // 7 dias
+          });
 
-            // Query
-            const sql = `SELECT ${conf.CH}, ${conf.EM}, ${conf.PA} FROM ${conf.U} WHERE ${conf.EM} = '${email}';`;
-            const [atributos] = await conn.query(sql, [email, senha])
+          console.log(token)
 
 
-            // Compara se o email da requisição é diferente do email da consulta
-            if(email !== atributos[0].u_email){
-                return res.status(400).json({
-                    error: true,
-                    message: "Erro: Usuário ou a senha incorreta!"
-                });
-            }
-
-            // Compara a senha da requisição incriptada com a senha da consulta incriptada
-            const isPasswordValid = await bcrypt.compare(senha, atributos[0].u_password);
-            if (!isPasswordValid) {
-                return res.status(400).json({
-                    error: true,
-                    message: "Erro: Usuário ou a senha incorreta! b",
-                });
-            }
-
-            const payload = {
-                email: email,
-                id: atributos[0].u_id
-            }
-
-            // Cria um token do usuario ao fazer o login
-            const token = jwt.sign(payload, conf.JWT_PASSWORD, {
-                expiresIn: 3600 // 1h
-                // expiresIn: 600 // 10min
-                // expiresIn: 60 // 1min
-                // expiresIn: '7d' // 7 dias
-            })
-            
-            // resposta da requisição
-            res.json({
-                erro: false,
-                message: "Login realizado com sucesso",
-                token
-            })
-           
-            
+          const thiago = {
+            thiago: 'thiago'
+          }
+          res.cookie("token", token, {
+            maxAge: 60000,
+            secure: conf.NODE_ENV
+          });
+          
+          console.log(req.cookie)
+      
+          // Exibe mensagem de sucesso
+          res.json({ status: "success", message: "Usuário logado com sucesso", token });
+        } catch (error) {
+          // Exibe mensagem de erro
+          res.json({ status: "error", message: error });
         }
-        // Exibe mensagem de erro
-        catch (error) {
-            res.json({ status: "error", message: error })
-        }
-    },
+      },
 
     Edition: async (req, res) => {
         try {
@@ -153,7 +159,7 @@ const userControl = {
     Delete: async (req, res) => {
         try {
             // token de autenticação do usuario
-            const token = req.headers.authorization.split(' ')[1];
+            const token = req.cookies.token;
             const decoded = jwt.decode(token);
             const userEmail = decoded.email;
 

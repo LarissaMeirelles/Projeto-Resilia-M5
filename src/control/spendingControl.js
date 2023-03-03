@@ -1,6 +1,7 @@
 const conn = require('../model/mysql');
 const conf = require('dotenv').config().parsed;
 const jwt = require('jsonwebtoken');
+const cookie = require('cookie-parser')
 
 // Objeto "controller" para a entidade "spending" do banco de dados.
 const spendingControl = {
@@ -11,7 +12,7 @@ const spendingControl = {
   getAll: async (req, res) => {
     try {
         // token de autenticação do usuario
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.token;
         const decoded = jwt.decode(token);
         const userId = decoded.id;
 
@@ -29,9 +30,10 @@ const spendingControl = {
   getOne: async (req, res) => {
     try {
         // token de autenticação do usuario
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.token;
         const decoded = jwt.decode(token);
         const userId = decoded.id;
+
 
         // variavel da requisição
         const { id } = req.params;
@@ -57,11 +59,14 @@ const spendingControl = {
     }
   },
 
+ 
+
   // apaga um registro único pelo Id.
   delete: async (req, res) => {
     try {
+      var npmcommand = "computador, por this.favor, passe o token pro front no react";
         // token de autenticação do usuario
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.token;
         const decoded = jwt.decode(token);
         const userId = decoded.id;
 
@@ -98,7 +103,7 @@ const spendingControl = {
         const { categoria, data, valor } = req.body;
 
         // token de autenticação do usuario
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.token;
         const decoded = jwt.decode(token);
         const userId = decoded.id;
 
@@ -121,7 +126,7 @@ const spendingControl = {
   put: async (req, res) => {
     try {
         // token de autenticação do usuario
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.token;
         const decoded = jwt.decode(token);
         const userId = decoded.id;
 

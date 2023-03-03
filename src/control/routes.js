@@ -1,11 +1,11 @@
 const express = require('express');
-
 // Verifica se o token que está sendo passado é o mesmo token do usuario
 const { verifyToken } = require('./verifyToken')
 const router = express.Router();
 
 // Valida os cadastros, atualizações de cadastro e login
 const { validation, validationLogin } = require('./validationUser')
+
 
 router.get("/", (req, res) => {
     res.render("index", {
@@ -52,6 +52,7 @@ router.post("/economy", verifyToken, economyControl.post);
 
 // Rota de Relatórios
 const reportControl = require('./reportControl');
+const cookieParser = require('cookie-parser');
 
 router.get("/reports", verifyToken, reportControl.getAll);
 router.get("/report/:id_cat", verifyToken, reportControl.getOne);

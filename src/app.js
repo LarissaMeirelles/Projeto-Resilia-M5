@@ -1,10 +1,15 @@
 const express = require('express');
 // const helmet = require('helmet');
 // const cors = require('cors');
+const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser');
 const routes = require('./control/routes');
 const path = require('path')
 const app = express();
+
+
+app.use(cookieParser())
+
 
 /*
 
@@ -28,6 +33,7 @@ app.set('view engine', 'ejs');
 // middleware body-parser para processar as requisições com dados JSON ou URL-encoded
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // Use as rotas do seu aplicativo
 app.use('/', routes);

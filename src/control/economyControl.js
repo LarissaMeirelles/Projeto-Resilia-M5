@@ -9,7 +9,7 @@ const economyControl = {
   getOne: async (req, res) => {
     try {
         // token de autenticação do usuario
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.token;
         const decoded = jwt.decode(token);
         const userId = decoded.id;
         
@@ -60,7 +60,7 @@ const economyControl = {
         const { id_gasto, id_categoria, economia, descricao} = req.body;
 
         // token de autenticação do usuario
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.token;
         const decoded = jwt.decode(token);
         const userId = decoded.id;
 

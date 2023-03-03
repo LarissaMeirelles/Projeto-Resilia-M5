@@ -14,7 +14,7 @@ const categoryControl = {
   getAll: async (req, res) => {
     try {
         // token de autenticação do usuario
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.token;
         const decoded = jwt.decode(token);
         const userId = decoded.id;
 
@@ -33,7 +33,7 @@ const categoryControl = {
   getOne: async (req, res) => {
     try {
         // token de autenticação do usuario
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.token;
         const decoded = jwt.decode(token);
         const userId = decoded.id;
 
@@ -71,7 +71,7 @@ const categoryControl = {
         const { nome, descricao } = req.body;
 
         // token de autenticação do usuario
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.token;
         const decoded = jwt.decode(token);
         const userId = decoded.id;
 
@@ -96,7 +96,7 @@ const categoryControl = {
   put: async (req, res) => {
     try {
         // token de autenticação do usuario
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.token;
         const decoded = jwt.decode(token);
         const userId = decoded.id;
     
@@ -144,7 +144,7 @@ const categoryControl = {
   delete: async (req, res) => {
     try {
         // token de autenticação do usuario
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.token;
         const decoded = jwt.decode(token);
         const userId = decoded.id;
     

@@ -10,7 +10,7 @@ const reportControl = {
     getAll: async (req, res) => {
       try {
           // token de autenticação do usuario
-          const token = req.headers.authorization.split(' ')[1];
+          const token = req.cookies.token;
           const decoded = jwt.decode(token);
           const userId = decoded.id;
         
@@ -28,7 +28,7 @@ const reportControl = {
     getOne: async (req, res) => {
       try {
           // token de autenticação do usuario
-          const token = req.headers.authorization.split(' ')[1];
+          const token = req.cookies.token;
           const decoded = jwt.decode(token);
           const userId = decoded.id;
 
@@ -65,7 +65,7 @@ const reportControl = {
           const { id } = req.params
 
           // token de autenticação do usuario
-          const token = req.headers.authorization.split(' ')[1];
+          const token = req.cookies.token;
           const decoded = jwt.decode(token);
           const userId = decoded.id;
       
@@ -96,7 +96,7 @@ const reportControl = {
         const { id_categoria, total_gastos } = req.body;
     
         // Token de autenticação do usuário
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.cookies.token;
         const decoded = jwt.decode(token);
         const userId = decoded.id;
     
@@ -130,7 +130,7 @@ const reportControl = {
     put: async (req, res) => {
       try {
           // token de autenticação do usuario
-          const token = req.headers.authorization.split(' ')[1];
+          const token = req.cookies.token;
           const decoded = jwt.decode(token);
           const userId = decoded.id;
       
