@@ -13,7 +13,7 @@ CREATE TABLE user (
     u_telephone VARCHAR(20),
     u_date_of_birth DATE NOT NULL,
     u_income DECIMAL NOT NULL,
-    u_gender ENUM('fem', 'masc', 'prefiro não informar') DEFAULT 'prefiro não informar',
+    u_gender ENUM('feminino', 'masculino', 'prefiro não informar') DEFAULT 'prefiro não informar',
     u_address VARCHAR(255) NOT NULL,
     u_avatar VARCHAR(255) NOT NULL DEFAULT "user.png",
     u_status ENUM('on', 'off', 'del') DEFAULT 'on',
@@ -67,12 +67,12 @@ CREATE TABLE report (
 
 INSERT INTO user (u_name, u_email, u_password, u_income, u_gender, u_address, u_telephone, u_date_of_birth, u_status , u_permission)
 VALUES
-('Thiago Bomfim', 'thiago@bomfim.com', '$2a$08$OCZJOnfnfZ99RIrY1svAJ.kLKzpOVLtM6UdDaHisJUL44Sv960Gc2', 5000, 'masc', 'rua conceicao de alguma coisa', '21984635412', '1997/02/13', 'on', 'adm'),
-('Ana Beatriz', 'ana@beatriz.com', '$2a$08$cj6dlEWyMS3nubTyG39uJuYhOOqe7xzMk1VMvf7ZK012Ir3/xPDoS', 4000, 'fem', 'rua conceicao de alguma coisa', '21976312348', '1998/10/20', 'on', 'adm'),
-('Larissa Meirelles', 'larissa@meirelles.com', '$2a$08$60qJMn7hBMJzCvkdGY1YA.5Z6mWlsihaMwtLz8heXcdksfuMVU2Cm', 6000, 'fem', 'rua conceicao de alguma coisa', '21994628632', '1996/03/01', 'on', 'adm'),
-('Alan Nataniel', 'alan@nataniel.com', '$2a$08$D..eaX5HJIBZ/qgySWFypef0yuIwrEZwLeQXmYnCFNkghLAil4IaS', 5500, 'masc', 'rua conceicao de alguma coisa', '21989453214', '1998/08/24', 'on', 'adm'),
-('Mariana Medeiros', 'mariana@medeiros.com', '$2a$08$2jLYiJyhuPBqkOPcOsKpMOhAip/8yljSegvGt.nZ1joGnbCYUK6YO', 5000, 'fem', 'rua conceicao de alguma coisa', '21965784512', '1999/11/18', 'on', 'adm'),
-('Nayane Cristina', 'nayane@cristina.com', '$2a$08$dH.klu8LBgu4a5sXfh5.ieJGH5/2WfLLbX9Ep7n5Rrb3qW2vhM8ki', 5800, 'fem', 'rua conceicao de alguma coisa', '21963129725', '1997/10/04', 'on', 'adm');
+('Thiago Bomfim', 'thiago@bomfim.com', '$2a$08$OCZJOnfnfZ99RIrY1svAJ.kLKzpOVLtM6UdDaHisJUL44Sv960Gc2', 5000, 'masculino', 'rua conceicao de alguma coisa', '21984635412', '1997/02/13', 'on', 'adm'),
+('Ana Beatriz', 'ana@beatriz.com', '$2a$08$cj6dlEWyMS3nubTyG39uJuYhOOqe7xzMk1VMvf7ZK012Ir3/xPDoS', 4000, 'feminino', 'rua conceicao de alguma coisa', '21976312348', '1998/10/20', 'on', 'adm'),
+('Larissa Meirelles', 'larissa@meirelles.com', '$2a$08$60qJMn7hBMJzCvkdGY1YA.5Z6mWlsihaMwtLz8heXcdksfuMVU2Cm', 6000, 'feminino', 'rua conceicao de alguma coisa', '21994628632', '1996/03/01', 'on', 'adm'),
+('Alan Nataniel', 'alan@nataniel.com', '$2a$08$D..eaX5HJIBZ/qgySWFypef0yuIwrEZwLeQXmYnCFNkghLAil4IaS', 5500, 'masculino', 'rua conceicao de alguma coisa', '21989453214', '1998/08/24', 'on', 'adm'),
+('Mariana Medeiros', 'mariana@medeiros.com', '$2a$08$2jLYiJyhuPBqkOPcOsKpMOhAip/8yljSegvGt.nZ1joGnbCYUK6YO', 5000, 'feminino', 'rua conceicao de alguma coisa', '21965784512', '1999/11/18', 'on', 'adm'),
+('Nayane Cristina', 'nayane@cristina.com', '$2a$08$dH.klu8LBgu4a5sXfh5.ieJGH5/2WfLLbX9Ep7n5Rrb3qW2vhM8ki', 5800, 'feminino', 'rua conceicao de alguma coisa', '21963129725', '1997/10/04', 'on', 'adm');
 
 INSERT INTO category (c_name, c_user, c_description)
 VALUES
