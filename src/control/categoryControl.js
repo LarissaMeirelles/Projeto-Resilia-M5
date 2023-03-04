@@ -54,7 +54,7 @@ const categoryControl = {
 
         } else{
           // resposta da requisição caso tenha seguido corretamente a requisição 
-          res.json({ result: atributos[0] });
+          res.json({ result: atributos });
         }
 
     // retorna mensagem de erro caso não tenha seguido corretamente a requisição
@@ -82,7 +82,8 @@ const categoryControl = {
         // resposta da requisição
         res.json({
           error: false,
-          message: 'Categoria adicionada com sucesso!'
+          message: 'Categoria adicionada com sucesso!',
+          result: atributos
         });
 
     // retorna mensagem de erro caso não tenha seguido corretamente a requisição
@@ -111,7 +112,8 @@ const categoryControl = {
         if (consulta.length === 0) {
           res.status(400).json({
             error: true,
-            message: "Categoria não existe"
+            message: "Categoria não existe",
+            result: consulta
           });
           return;
         }
@@ -131,7 +133,7 @@ const categoryControl = {
         res.json({
           error: false,
           message: 'Categoria alterada com sucesso!',
-          data: atributos[0]
+          result: atributos
         });
 
     } catch (error) {
@@ -165,7 +167,7 @@ const categoryControl = {
         return res.json({
           error: false,
           message: 'Categoria deletada com sucesso!',
-          data: atributos[0]
+          result: atributos
         });
     
     // retorna mensagem de erro caso não tenha seguido corretamente a requisição

@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 const userControl = require('./userControl');
 
 // Rota do Usuário
-router.get("/adm", userControl.getAll);
+router.get("/adm", verifyToken, userControl.getAll);
 
 router.post("/login", validationLogin, userControl.Login);
 router.post("/register", validation, userControl.Register);

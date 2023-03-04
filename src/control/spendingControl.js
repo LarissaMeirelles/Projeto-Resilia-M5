@@ -45,7 +45,8 @@ const spendingControl = {
 
           res.json({
             error: true,
-            message: "Gasto não existe"
+            message: "Gasto não existe",
+            result: atributos
           });
 
           return
@@ -87,7 +88,7 @@ const spendingControl = {
         return res.json({
           error: false,
           message: 'Gasto deletado com sucesso!',
-          data: atributos[0]
+          result: atributos
         });
         
     } catch (error) {
@@ -115,7 +116,7 @@ const spendingControl = {
         res.json({
           error: false,
           message: 'Gasto criado com sucesso!',
-          result: atributos[0]
+          result: atributos
         });
     } catch (error) {
       res.json({ status: "error", message: error });
@@ -141,7 +142,7 @@ const spendingControl = {
         if (consulta.length === 0) {
           res.status(400).json({
             error: true,
-            message: "Gasto não existe"
+            message: "Gasto não existe",
           });
           return;
         }
@@ -159,7 +160,7 @@ const spendingControl = {
         res.json({
           error: false,
           message: 'Gasto atualizado com sucesso!',
-          result: atributos[0]
+          result: atributos
           });
     } catch (error) {
       res.json({ status: "error", message: error });

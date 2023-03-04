@@ -1,6 +1,6 @@
 const express = require('express');
 // const helmet = require('helmet');
-// const cors = require('cors');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const routes = require('./control/routes');
 const path = require('path')
@@ -16,7 +16,7 @@ app.use((req, res, next)=> {
 })
 
 
-
+app.use(cors())
 
 /*
 

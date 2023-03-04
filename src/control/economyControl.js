@@ -45,7 +45,7 @@ const economyControl = {
         } else{
 
           // resposta da requisição caso tenha seguido corretamente a requisição 
-          res.json({ result: atributos[0] });
+          res.json({ result: atributos });
         }
       
     } catch (error) {
@@ -71,7 +71,8 @@ const economyControl = {
         // resposta da requisição
         res.json({
           error: false,
-          message: 'Economia adicionada com sucesso!'
+          message: 'Economia adicionada com sucesso!',
+          result: { id: id_gasto, id_cat: id_categoria, economy: economia, description: descricao}
         });
         
     } catch (error) {

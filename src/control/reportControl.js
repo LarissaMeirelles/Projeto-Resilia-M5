@@ -82,7 +82,7 @@ const reportControl = {
           return res.json({
             error: false,
             message: 'Relatorio deletado com sucesso!',
-            data: atributos[0] 
+            result: atributos
           });
       } catch (error) {
         res.json({ status: "error", message: "ERRO: Não foi possivel deletar o relatorio" });
@@ -117,7 +117,8 @@ const reportControl = {
         // Resposta da requisição
         res.json({
           error: false,
-          message: 'Relatório criado com sucesso!'
+          message: 'Relatório criado com sucesso!',
+          result: atributos
         });
       } catch (error) {
         console.error(error);
@@ -165,7 +166,7 @@ const reportControl = {
           res.json({
             error: false,
             message: 'Relatório alterado com sucesso!',
-            data: atributos[0]
+            result: atributos
           }); 
 
       } catch (error) {
