@@ -52,7 +52,8 @@ const userControl = {
             // Resposta da requisição
             res.json({
                 error: false,
-                message: "Cadastro realizado com sucesso!"
+                message: "Cadastro realizado com sucesso!",
+                result: atributos
             });
         }
         catch (error) {
