@@ -107,7 +107,7 @@ const userControl = {
           });
 
           // Exibe mensagem de sucesso
-          res.json({ status: "success", message: "Usuário logado com sucesso", token, email: atributos[0].u_email });
+          res.json({ status: "success", message: "Usuário logado com sucesso", token, user: atributos[0].u_email });
         } catch (error) {
           // Exibe mensagem de erro
           res.json({ status: "error", message: error });
