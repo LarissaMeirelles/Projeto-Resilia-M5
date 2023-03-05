@@ -17,7 +17,7 @@ const validation = [
 
   // Verifica se a data de nascimento é uma data válida usando o Moment.js e a formata para "YYYY-MM-DD".
   check('data_nascimento').custom((value, { req }) => {
-    const date = moment(value, 'DD/MM/YYYY', true);
+    const date = moment(value, 'YYYY/DD/MM', true);
     if (!date.isValid()) {
       throw new Error('Data de nascimento inválida');
     }
