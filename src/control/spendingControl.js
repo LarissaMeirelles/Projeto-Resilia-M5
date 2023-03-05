@@ -17,7 +17,7 @@ const spendingControl = {
         const userId = decoded.id;
 
         // busca todos as categorias do mesmo usuário
-        const [atributos] = await conn.query(`SELECT s.*, c.${conf.CN},  FROM ${conf.S} s JOIN ${conf.C} c ON s.${conf.SC} = c.${conf.CI} WHERE s.${conf.SU} = ${userId};`);
+        const [atributos] = await conn.query(`SELECT s.${conf.SI}, c.${conf.CN}, s.${conf.SD}, s.${conf.SV} FROM ${conf.S} s JOIN ${conf.C} c ON s.${conf.SC} = c.${conf.CI} WHERE s.${conf.SU} = ${userId};`);
 
         res.json({ result: atributos });
 
