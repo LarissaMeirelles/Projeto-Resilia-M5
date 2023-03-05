@@ -15,9 +15,6 @@ app.use((req, res, next)=> {
   next()
 })
 
-
-app.use(cors())
-
 /*
 
 Adicionar o site na origin, quando tiver com o site/front-end estiver pronto
