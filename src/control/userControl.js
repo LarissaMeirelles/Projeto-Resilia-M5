@@ -39,14 +39,14 @@ const userControl = {
     Register: async (req, res) => {
         try {
             // variaveis da requisição
-            const { nome, email, idade, telefone, genero, endereco, renda, senha } = req.body;
+            const { nome, email, data_nascimento, telefone, genero, endereco, renda, senha } = req.body;
             
             // criptografa a senha do usuário
             const cript = await bcrypt.hash(senha, 8);
 
             // Query
-            const sql = `INSERT INTO ${conf.U} (${conf.NA}, ${conf.EM}, ${conf.UB} ,${conf.TE}, ${conf.GD}, ${conf.END}, ${conf.IN}, ${conf.PA}) VALUES ('${nome}', '${email}', ${idade}, '${telefone}', '${genero}',' ${endereco}', ${renda}, '${cript}');`
-            const [atributos] = await conn.query(sql);
+            const sql = `INSERT INTO ${conf.U} (${conf.NA}, ${conf.EM}, ${conf.UB} ,${conf.TE}, ${conf.GD}, ${conf.END}, ${conf.IN}, ${conf.PA}) VALUES ('${nome}', '${email}', ${data_nascimento}, '${telefone}', '${genero}',' ${endereco}', ${renda}, '${cript}');`
+            const [atributos] = await conn.query(sql, [nome, email, data_nascimento, telefone, genero, endereco, renda, senha]);
 
 
             // Resposta da requisição
@@ -118,14 +118,20 @@ const userControl = {
 
     Edition: async (req, res) => {
         try {
-            const { nome, email, senha, renda, telefone, genero, endereco, avatar } = req.body;
+
+            // token de autenticação do usuario
+            const token = req.headers.authorization.split(' ')[1];
+            const decoded = jwt.decode(token);
+            const userEmail = decoded.email;
+
+            const { nome, email, data_nascimento, telefone, genero, endereco, renda, senha, avatar } = req.body;
 
             // criptografa a senha do usuário
             const cript = await bcrypt.hash(senha, 8);
 
             // Query para atualizar os dados do usuário
-            const sql = `UPDATE ${conf.U} SET ${conf.NA} = '${nome}', ${conf.EM} = '${email}', ${conf.PA} = '${cript}', ${conf.IN} = ${renda}, ${conf.TE} = '${telefone}', ${conf.GD} = '${genero}', ${conf.END} = '${endereco}', ${conf.AV} = '${avatar}' WHERE ${conf.EM} = '${email}'`;
-            const [atributos] = await conn.query(sql, [nome, email, cript, renda, telefone, genero, endereco, avatar]);
+            const sql = `UPDATE ${conf.U} SET ${conf.NA} = '${nome}', ${conf.EM} = '${email}', ${conf.UB} = ${data_nascimento}, ${conf.PA} = '${cript}', ${conf.IN} = ${renda}, ${conf.TE} = '${telefone}', ${conf.GD} = '${genero}', ${conf.END} = '${endereco}', ${conf.AV} = '${avatar}' WHERE ${conf.EM} = '${userEmail}'`;
+            const [atributos] = await conn.query(sql);
 
             // Verifica se a atualização foi bem sucedida
             if (atributos.affectedRows === 0) {
@@ -135,7 +141,8 @@ const userControl = {
             // Resposta da requisição
             return res.json({
             error: false,
-            message: 'Usuário atualizado com sucesso!'
+            message: 'Usuário atualizado com sucesso!',
+            result: atributos
             })
         } 
         catch (error) {
