@@ -37,7 +37,7 @@ const spendingControl = {
 
         // variavel da requisição
         const { id } = req.params;
-        const sql = `SELECT s.${conf.SI}, c.${conf.CN}, s.${conf.SD}, s.${conf.SV} FROM ${conf.S} s JOIN ${conf.C} c ON s.${conf.SC} = c.${conf.CI} WHERE s.${conf.SU} = ${userId} AND s.${conf.SI} = ${id};`
+        const sql = `SELECT s.*, c.${conf.CN},  FROM ${conf.S} s JOIN ${conf.C} c ON s.${conf.SC} = c.${conf.CI} WHERE s.${conf.SU} = ${userId} AND s.${conf.SI} = ${id};`
         const [atributos] = await conn.query(sql, [id]);
         
         // se não existir nenhum gasto, retorne erro
