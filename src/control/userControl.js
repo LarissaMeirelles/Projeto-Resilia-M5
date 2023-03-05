@@ -40,7 +40,7 @@ const userControl = {
         try {
             // variaveis da requisição
             const { nome, email, idade, telefone, genero, endereco, renda, senha } = req.body;
-
+            
             // criptografa a senha do usuário
             const cript = await bcrypt.hash(senha, 8);
 
@@ -59,7 +59,7 @@ const userControl = {
         catch (error) {
             res.status(400).json({
                 error: true,
-                message: error.message
+                message: error
             });
         }
     },

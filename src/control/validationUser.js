@@ -1,4 +1,5 @@
 const { check, validationResult } = require('express-validator');
+const moment = require('moment');
 
 const validation = [
 
@@ -24,6 +25,15 @@ const validation = [
   // Se é numérico;
   // E pode ser convertido em um número inteiro.
   check('telefone').isLength({ min: 11, max: 15 }).notEmpty().isNumeric().toInt(),
+
+  // Verifica se o campo idade está no formato de data/hora válido
+  check('idade').custom((value) => {
+    if (!moment(value, moment.ISO_8601).isValid()) {
+      throw new Error('A idade deve estar no formato de data/hora ISO 8601 válido');
+    }
+    return true;
+  }),
+
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
