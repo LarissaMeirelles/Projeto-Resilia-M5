@@ -15,6 +15,16 @@ const validation = [
   // No final, converte caracteres especiais em suas entidades HTML correspondentes.
   check('nome').isLength({ min: 3 }).notEmpty().trim().escape(),
 
+  // Verifica se a data de nascimento é uma data válida usando o Moment.js e a formata para "YYYY-MM-DD".
+  check('data_nascimento').custom((value, { req }) => {
+    const date = moment(value, 'DD/MM/YYYY', true);
+    if (!date.isValid()) {
+      throw new Error('Data de nascimento inválida');
+    }
+    req.body.data_nascimento = date.format('YYYY-MM-DD');
+    return true;
+  }),
+
   // Verifica se o campo renda não está vazio;
   // Se é numérico;
   // E pode ser convertido em um número de ponto flutuante.
@@ -26,14 +36,6 @@ const validation = [
   // E pode ser convertido em um número inteiro.
   check('telefone').isLength({ min: 11, max: 15 }).notEmpty().isNumeric().toInt(),
 
-  // Verifica se o campo idade está no formato de data/hora válido
-  check('idade').custom((value) => {
-    if (!moment(value, moment.ISO_8601).isValid()) {
-      throw new Error('A idade deve estar no formato de data/hora ISO 8601 válido');
-    }
-    return true;
-  }),
-
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -42,6 +44,8 @@ const validation = [
     next();
   }
 ];
+
+module.exports = validation;
 
 
 const validationLogin = async (req, res, next) => {
