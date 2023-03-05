@@ -45,8 +45,6 @@ const validation = [
   }
 ];
 
-module.exports = validation;
-
 
 const validationLogin = async (req, res, next) => {
   try {
