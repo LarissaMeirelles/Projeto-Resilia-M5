@@ -45,8 +45,8 @@ const userControl = {
             const cript = await bcrypt.hash(senha, 8);
 
             // Query
-            const sql = `INSERT INTO ${conf.U} (${conf.NA}, ${conf.EM}, ${conf.UB} ${conf.PA}, ${conf.IN}, ${conf.TE}, ${conf.GD}, ${conf.END}, ${conf.AV}) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
-            const [atributos] = await conn.query(sql, [nome, email, idade, telefone, genero, endereco, renda, senha]);
+            const sql = `INSERT INTO ${conf.U} (${conf.NA}, ${conf.EM}, ${conf.UB} ,${conf.TE}, ${conf.GD}, ${conf.END}, ${conf.IN}, ${conf.PA}) VALUES ('${nome}', '${email}', ${idade}, '${telefone}', '${genero}',' ${endereco}', '${renda}', '${senha}');`;
+            const [atributos] = await conn.query(sql);
 
 
             // Resposta da requisição

@@ -1,8 +1,8 @@
 -- Cria o banco de dados usando UTF-8 e buscas case-insensitive.
-CREATE DATABASE financial_control CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE freedb_financial_control CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 -- Seleciona o banco de dados de trabalho.
-USE financial_control;
+USE freedb_financial_control;
 
 -- Cria a tabela 'user'.
 CREATE TABLE user (
@@ -11,11 +11,11 @@ CREATE TABLE user (
     u_email VARCHAR(100) UNIQUE NOT NULL,
     u_password VARCHAR(127) NOT NULL,
     u_telephone VARCHAR(20),
-    u_date_of_birth DATE NOT NULL,
+    u_date_of_birth DATE,
     u_income DECIMAL NOT NULL,
     u_gender ENUM('feminino', 'masculino', 'prefiro não informar') DEFAULT 'prefiro não informar',
     u_address VARCHAR(255) NOT NULL,
-    u_avatar VARCHAR(255) NOT NULL DEFAULT "user.png",
+    u_avatar VARCHAR(255) DEFAULT "user.png",
     u_status ENUM('on', 'off', 'del') DEFAULT 'on',
     u_permission ENUM('adm', 'mod', 'users') DEFAULT 'users'
 );
