@@ -39,14 +39,14 @@ const userControl = {
     Register: async (req, res) => {
         try {
             // variaveis da requisição
-            const { nome, email, senha, renda, telefone, genero, endereco } = req.body;
+            const { nome, email, idade, telefone, genero, endereco, renda, senha } = req.body;
 
             // criptografa a senha do usuário
             const cript = await bcrypt.hash(senha, 8);
 
             // Query
-            const sql = `INSERT INTO ${conf.U} (${conf.NA}, ${conf.EM}, ${conf.PA}, ${conf.IN}, ${conf.TE}, ${conf.GD}, ${conf.END}, ${conf.AV}) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
-            const [atributos] = await conn.query(sql, [nome, email, cript, renda, telefone, genero, endereco]);
+            const sql = `INSERT INTO ${conf.U} (${conf.NA}, ${conf.EM}, ${conf.UB} ${conf.PA}, ${conf.IN}, ${conf.TE}, ${conf.GD}, ${conf.END}, ${conf.AV}) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`;
+            const [atributos] = await conn.query(sql, [nome, email, idade, telefone, genero, endereco, renda, senha]);
 
 
             // Resposta da requisição
