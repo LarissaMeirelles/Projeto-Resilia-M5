@@ -16,7 +16,7 @@ app.use((req, res, next)=> {
 })
 
 
-app.use(cors())
+app.use(cors({ origin: 'http://localhost:5174'}))
 
 /*
 
