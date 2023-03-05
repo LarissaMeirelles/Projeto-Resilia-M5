@@ -46,7 +46,7 @@ const userControl = {
 
             // Query
             const sql = `INSERT INTO ${conf.U} (${conf.NA}, ${conf.EM}, ${conf.UB} ,${conf.TE}, ${conf.GD}, ${conf.END}, ${conf.IN}, ${conf.PA}) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`
-            const [atributos] = await conn.query(sql, [nome, email, data_nascimento, telefone, genero, endereco, renda, senha]);
+            const [atributos] = await conn.query(sql, [nome, email, data_nascimento, telefone, genero, endereco, renda, cript]);
 
 
             // Resposta da requisição
