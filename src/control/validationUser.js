@@ -1,5 +1,4 @@
 const { check, validationResult } = require('express-validator');
-const moment = require('moment');
 
 const validation = [
 
@@ -14,16 +13,6 @@ const validation = [
   // Remove espaços em branco no início;
   // No final, converte caracteres especiais em suas entidades HTML correspondentes.
   check('nome').isLength({ min: 3 }).notEmpty().trim().escape(),
-
-  // Verifica se a data de nascimento é uma data válida usando o Moment.js e a formata para "YYYY-MM-DD".
-  check('data_nascimento').custom((value, { req }) => {
-    const date = moment(value, 'YYYY/DD/MM', true);
-    if (!date.isValid()) {
-      throw new Error('Data de nascimento inválida');
-    }
-    req.body.data_nascimento = date.format('YYYY-MM-DD');
-    return true;
-  }),
 
   // Verifica se o campo renda não está vazio;
   // Se é numérico;
