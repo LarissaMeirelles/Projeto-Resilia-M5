@@ -91,7 +91,11 @@ INSERT INTO spending (s_user, s_category, s_date, s_value) VALUES
 (3, 2, '2023-02-15', 50),
 (4, 4, '2023-02-22', 20),
 (5, 2, '2023-02-10', 140),
-(6, 3, '2023-02-15', 90);
+(6, 3, '2023-02-15', 90),
+(1, 2, '2023-02-16', 100),
+(1, 3, '2023-02-24', 45),
+(1, 4, '2023-02-12', 240),
+(1, 5, '2023-02-14', 60);
 
 INSERT INTO economy (e_date, e_user, e_spending, e_category, e_value_saved, e_description) VALUES 
 ('2023-02-27T19:20', 1, 1, 1, 130,'Paguei a academia'),
