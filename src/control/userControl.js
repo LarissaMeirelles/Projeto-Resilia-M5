@@ -17,15 +17,17 @@ const userControl = {
             // Verifica se o usuário é um administrador e se o email é o mesmo do token
             const sql = `SELECT * FROM ${conf.U} WHERE ${conf.UP} = '${conf.A}' AND ${conf.CH} = ${userId};`;
             const [atributos] = await conn.query(sql);
-
+            throw ("error ta aqui primeiro")
+            
             // verifica se existe algum usuario. se não existir, retorne erro
             if (atributos.length === 0) {
+                throw ("error ta aqui segundo")
                 return res.status(403).json({ error: true, message: 'Acesso negado' });
             } else {
                 // Query que obtém os dados do banco de dados
                 const sqlGetAll = `SELECT * FROM ${conf.U};`;
                 const [users] = await conn.query(sqlGetAll);
-                
+                throw ("erro ta aqui terceiro")
                 // resposta da requisição caso tudo tenha seguido corretamente
                 res.json({ result: users });
             }
