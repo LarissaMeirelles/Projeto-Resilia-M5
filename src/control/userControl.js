@@ -70,7 +70,7 @@ const userControl = {
           const { email, senha } = req.body;
           
           // Query
-          const sql = `SELECT ${conf.CH}, ${conf.EM}, ${conf.PA} FROM ${conf.U} WHERE ${conf.EM} = '${email}';`;
+          const sql = `SELECT * FROM ${conf.U} WHERE ${conf.EM} = '${email}';`;
           const [atributos] = await conn.query(sql, [email, senha]);
       
           // Compara se o email da requisição é diferente do email da consulta

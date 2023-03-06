@@ -20,6 +20,8 @@ CREATE TABLE user (
     u_permission ENUM('adm', 'mod', 'users') DEFAULT 'users'
 );
 
+
+
 -- Cria a tabela 'category'.
 CREATE TABLE category (
     c_id INT PRIMARY KEY AUTO_INCREMENT,
