@@ -97,7 +97,7 @@ const userControl = {
 
           const payload = {
             email: email,
-            id: atributos[0].u_id,
+            id: atributos
           };
       
           // Cria um token do usuario ao fazer o login
