@@ -15,7 +15,7 @@ const userControl = {
             const userId = decoded.id;
 
             // Verifica se o usuário é um administrador e se o email é o mesmo do token
-            const sql = `SELECT * FROM ${conf.U} WHERE ${conf.UP} = '${conf.A}' AND ${conf.CH} = ${userId};`;
+            const sql = `SELECT * FROM ${conf.U} WHERE ${conf.UP} = '${conf.A}' AND ${conf.CH} = ${userId.u_id};`;
             const [atributos] = await conn.query(sql);
             throw ("error ta aqui primeiro")
             
