@@ -15,10 +15,8 @@ const userControl = {
             
             // verifica se existe algum usuario. se não existir, retorne erro
             if (atributos.length === 0) {
-                throw ("error ta aqui segundo")
                 return res.status(403).json({ error: true, message: 'Acesso negado' });
             } else {
-                throw ("erro ta aqui terceiro")
                 // Query que obtém os dados do banco de dados
                 const sqlGetAll = `SELECT * FROM ${conf.U};`;
                 const [users] = await conn.query(sqlGetAll);
