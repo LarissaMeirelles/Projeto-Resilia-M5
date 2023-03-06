@@ -32,7 +32,7 @@ const userControl = {
 
         // retorna mensagem de erro caso não tenha seguido corretamente a requisição
         } catch (error) {
-            res.json({ message: `Você não é um administrador para acessar essa rota!` });
+            res.json({ message: error });
         }
     },
 
