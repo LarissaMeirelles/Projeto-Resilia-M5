@@ -97,13 +97,7 @@ const userControl = {
 
           const payload = {
             id: atributos[0].u_id,
-            nome: atributos[0].u_name,
-            nascimento: atributos[0].u_date_of_birth,
-            email: email,
-            renda: atributos[0].u_income,
-            telefone: atributos[0].u_telephone,
-            endereco: atributos[0].u_address,
-            genero: atributos[0].u_gender
+            email: email
           };
       
           // Cria um token do usuario ao fazer o login
@@ -115,7 +109,7 @@ const userControl = {
           });
 
           // Exibe mensagem de sucesso
-          res.json({ status: "success", message: "Usuário logado com sucesso", token, user: atributos[0].u_email });
+          res.json({ status: "success", message: "Usuário logado com sucesso", token, user: atributos[0] });
         } catch (error) {
           // Exibe mensagem de erro
           res.json({ status: "error", message: error });
