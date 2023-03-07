@@ -9,8 +9,13 @@ const userControl = {
     getAll: async (req, res) => {
         
         try {
+            // token de autenticação do usuario
+            const token = req.headers.authorization.split(' ')[1];
+            const decoded = jwt.decode(token);
+            const userId = decoded.id;
+            
             // Verifica se o usuário é um administrador e se o email é o mesmo do token
-            const sql = `SELECT * FROM ${conf.U} WHERE ${conf.UP} = '${conf.A}';`;
+            const sql = `SELECT * FROM ${conf.U} WHERE ${conf.UP} = '${conf.A}' AND ${conf.CH} = ${userId};`;
             const [atributos] = await conn.query(sql);
             
             // verifica se existe algum usuario. se não existir, retorne erro
