@@ -96,8 +96,14 @@ const userControl = {
           console.log(email, senha)
 
           const payload = {
+            id: atributos[0].u_id,
+            nome: atributos[0].u_name,
+            nascimento: atributos[0].u_date_of_birth,
             email: email,
-            id: atributos[0]
+            renda: atributos[0].u_income,
+            telefone: atributos[0].u_telephone,
+            endereco: atributos[0].u_address,
+            genero: atributos[0].u_gender
           };
       
           // Cria um token do usuario ao fazer o login
