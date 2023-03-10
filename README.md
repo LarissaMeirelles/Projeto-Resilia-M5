@@ -34,11 +34,10 @@
 #### Rotas do usuário
 ```
  - /adm (GET) - Lista todos os usuários cadastrados;  // apenas usuários autorizados
- - /login/:id (POST) - Realiza o login de um usuário;
- - /login/:id (POST) - Realiza o login de um usuário;
+ - /login (POST) - Realiza o login de um usuário;
  - /register (POST) - Cadastra um novo usuário;
- - /edition/:id (PUT) - Edita as informações de um usuário;
- - /delete/:id (DELETE) - Deleta um usuário; 
+ - /edition (PUT) - Edita as informações de um usuário;
+ - /delete (DELETE) - Deleta um usuário; 
  ```
 
 #### Rotas das categorias de gastos
@@ -53,7 +52,7 @@
 
 #### Rotas para gastos
 ```
- - /spendings/:id (GET) - Lista todos os gastos de uma determinada categoria;
+ - /spendings (GET) - Lista todos os gastos de uma determinada categoria;
  - /spending/:id (GET) - Retorna um gasto específico;
  - /spending (POST) - Cadastra um novo gasto;
  - /spending/:id (PUT) - Edita um gasto existente;
@@ -68,8 +67,8 @@
 
 #### Rotas para relatórios
  ```
- - /reports/:id (GET) - Lista todos os relatórios de uma determinada categoria;
- - /report/:id (POST) - Retorna um relatório específico;
+ - /reports (GET) - Lista todos os relatórios de uma determinada categoria;
+ - /report/:id (GET) - Retorna um relatório específico;
  - /report (POST) - Cadastra um novo relatório;
  - /report/:id (PUT) - Edita um relatório existente;
  - /report/:id (DELETE) - Deleta um relatório existente.
